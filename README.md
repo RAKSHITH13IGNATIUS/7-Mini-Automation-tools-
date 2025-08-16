@@ -1,2 +1,6 @@
-# 7-Mini-Automation-tools-
+ # 7-Mini-Automation-tools
  7 automations tools which can be used make life easier using N8N and tools 
+
+
+https://github.com/user-attachments/assets/0db0ac05-8eea-4396-aba3-c032d99dd7e7
+
