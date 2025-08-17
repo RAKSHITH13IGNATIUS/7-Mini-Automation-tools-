@@ -5,7 +5,7 @@
 
 https://github.com/user-attachments/assets/0db0ac05-8eea-4396-aba3-c032d99dd7e7
 
-2) Discord Bot which daily sends news that what happened "ON THIS DAY" [**click-**](https://discord.com/channels/1406624925376315422/1406624925728505947)
+2) Discord Bot which daily sends news that what happened "ON THIS DAY" [**click-**](https://discord.gg/Sm3vACNU)
 
 https://github.com/user-attachments/assets/17276206-977d-453b-b616-8077dd0a5be7
 
