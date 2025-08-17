@@ -1,0 +1,158 @@
+{
+  "name": "Discord On this day",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        144
+      ],
+      "id": "07969e39-725d-4a6c-8a74-370a353da661",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get today's date (month/day) for the API\nconst today = new Date();\nreturn [\n  {\n    json: {\n      month: today.getMonth() + 1, // months are 0-based\n      day: today.getDate()\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        144
+      ],
+      "id": "bd89d0e8-44cd-4cd6-8270-0cb8d37c1070",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "url": "=https://byabbe.se/on-this-day/{{ $json.month }}/{{ $json.day }}/events.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        416,
+        256
+      ],
+      "id": "135f4a88-4169-4e4c-9e31-5131eb95519c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Take events from API, limit to 3, and format neatly\nconst events = $json.events.slice(0, 3); // only first 3 events\nconst today = $json.date; // e.g. \"August 17\"\n\nlet message = `📅 On This Day (${today})\\n\\n`;\n\nevents.forEach(e => {\n  message += `🔹 ${e.year}: ${e.description}\\n\\n`;\n});\n\n// Trim trailing whitespace\nmessage = message.trim();\n\nreturn [{ json: { text: message } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        176
+      ],
+      "id": "73d5482d-02be-443b-80b3-fb23c29c3d98",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1406624925376315422",
+          "mode": "list",
+          "cachedResultName": "Ignatius's server",
+          "cachedResultUrl": "https://discord.com/channels/1406624925376315422"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1406624925728505947",
+          "mode": "list",
+          "cachedResultName": "on-this-day",
+          "cachedResultUrl": "https://discord.com/channels/1406624925376315422/1406624925728505947"
+        },
+        "content": "=📅 On This Day: {{ $json.text }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        832,
+        144
+      ],
+      "id": "302b99f5-3d51-4c33-9dcf-db21c07b2386",
+      "name": "Send a message",
+      "webhookId": "3046c507-6378-4a10-8f43-119ed5786e34",
+      "credentials": {
+        "discordBotApi": {
+          "id": "z486pY3UCFjfIswd",
+          "name": "Discord Bot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0b499423-8192-45d5-bce9-f7205717658b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "30381347555293bc7636ec78fa7cb36851184bc2a2e942135a1daaf8692f9ebf"
+  },
+  "id": "9fj8JZRc6PYyWRR8",
+  "tags": []
+}
